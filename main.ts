@@ -52,6 +52,10 @@ function SetupLevel () {
         tiles.placeOnTile(Portal, tiles.getTileLocation(0, 8))
         tiles.placeOnTile(blue_Portal, tiles.getTileLocation(11, 1))
         tiles.placeOnTile(red_Portal, tiles.getTileLocation(14, 10))
+    } else if (level == 3) {
+        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level21`))
+        tiles.placeOnTile(Robob, tiles.getTileLocation(19, 1))
+        tiles.placeOnTile(Portal, tiles.getTileLocation(1, 13))
     } else {
     	
     }
