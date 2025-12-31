@@ -123,7 +123,7 @@ let HhookSprite: Sprite = null
 let Robob: Sprite = null
 let level = 0
 scene.setBackgroundImage(assets.image`level1`)
-level = 3
+level = 1
 Robob = sprites.create(assets.image`IdleR`, SpriteKind.Player)
 Robob.ay = 400
 HhookSprite = sprites.create(assets.image`blank`, SpriteKind.rope)
