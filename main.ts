@@ -3,6 +3,7 @@ namespace SpriteKind {
     export const connecter = SpriteKind.create()
     export const Vhook = SpriteKind.create()
     export const Hhook = SpriteKind.create()
+    export const Warp = SpriteKind.create()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     HropeLength = 0
@@ -48,42 +49,16 @@ tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level1`))
 Robob = sprites.create(assets.image`IdleR`, SpriteKind.Player)
 Robob.ay = 400
 tiles.placeOnTile(Robob, tiles.getTileLocation(1, 13))
-HhookSprite = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.rope)
-VhookSprite = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.rope)
+HhookSprite = sprites.create(assets.image`blank`, SpriteKind.rope)
+VhookSprite = sprites.create(assets.image`blank1`, SpriteKind.rope)
+let Portal = sprites.create(assets.image`blank`, SpriteKind.Warp)
+tiles.placeOnTile(Portal, tiles.getTileLocation(0, 2))
+animation.runImageAnimation(
+Portal,
+assets.animation`PORTAL`,
+100,
+true
+)
 direction = 1
 music.play(music.createSong(assets.song`City Harbor`), music.PlaybackMode.LoopingInBackground)
 game.splash("Press down to read signs!")
