@@ -85,6 +85,7 @@ VhookSprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.rope)
 direction = 1
+music.play(music.createSong(assets.song`City Harbor`), music.PlaybackMode.LoopingInBackground)
 game.splash("Press down to read signs!")
 game.onUpdate(function () {
     if (!(controller.A.isPressed())) {
