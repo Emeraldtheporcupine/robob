@@ -31,7 +31,7 @@ function SetupLevel () {
         tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level1`))
         tiles.placeOnTile(Robob, tiles.getTileLocation(1, 13))
         tiles.placeOnTile(Portal, tiles.getTileLocation(0, 2))
-        game.splash("Press down to read signs!")
+        game.splash("Press down to read signs!", "(You're standing on a sign)")
     } else if (level == 2) {
         tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level0`))
         blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
@@ -54,8 +54,24 @@ function SetupLevel () {
         tiles.placeOnTile(red_Portal, tiles.getTileLocation(14, 10))
     } else if (level == 3) {
         tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level21`))
+        blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
+        red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
+        animation.runImageAnimation(
+        blue_Portal,
+        assets.animation`blue portal`,
+        100,
+        true
+        )
+        animation.runImageAnimation(
+        red_Portal,
+        assets.animation`red portal`,
+        100,
+        true
+        )
         tiles.placeOnTile(Robob, tiles.getTileLocation(19, 1))
         tiles.placeOnTile(Portal, tiles.getTileLocation(1, 13))
+        tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 11))
+        tiles.placeOnTile(red_Portal, tiles.getTileLocation(19, 1))
     } else {
     	
     }
@@ -64,6 +80,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BluePortal, function (sprite, ot
     sprite.setPosition(red_Portal.x, red_Portal.y)
 })
 scene.onHitWall(SpriteKind.Vhook, function (sprite, location) {
+    Robob.x = VhookSprite.x
     Robob.y = VhookSprite.y
     VropeLength = 0
     sprites.destroy(VhookSprite)
@@ -91,6 +108,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 scene.onHitWall(SpriteKind.Hhook, function (sprite, location) {
     Robob.x = HhookSprite.x
+    Robob.y = HhookSprite.y
     HropeLength = 0
     sprites.destroy(HhookSprite)
 })
@@ -145,6 +163,9 @@ game.onUpdate(function () {
     }
     if (!(controller.B.isPressed())) {
         HropeLength = 0
+        sprites.destroy(HhookSprite)
+    }
+    if (Robob.vy > 0) {
         sprites.destroy(HhookSprite)
     }
 })

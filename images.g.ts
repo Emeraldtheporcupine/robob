@@ -25,20 +25,6 @@ b f f f f f b b
 . f c c f f f c 
 f f c f f f f . 
 `;
-            case "image3":
-            case "hook":return img`
-. b b . 
-. b b . 
-b b b b 
-. b b . 
-`;
-            case "image5":
-            case "hook0":return img`
-. b . . 
-b b b b 
-b b b b 
-. b . . 
-`;
             case "image4":
             case "level1":return img`
 9999999999999999999999999999999999999999999999999999949999999999999999999999999999999999999999999999999999999999999999999999999999999999994999999999999999999999
@@ -183,6 +169,20 @@ aaaaaaaaaaaaaaaaaaaaa66666666666666666666666666666666666666666666644444444422222
 . . . . . . . . 
 . . . . . . . . 
 . . . . . . . . 
+`;
+            case "image3":
+            case "hook":return img`
+. e e . 
+. e e . 
+e e e e 
+. e e . 
+`;
+            case "image5":
+            case "hook0":return img`
+. e . . 
+e e e e 
+e e e e 
+. e . . 
 `;
         }
         return null;
