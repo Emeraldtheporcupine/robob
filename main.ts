@@ -165,4 +165,7 @@ game.onUpdate(function () {
         HropeLength = 0
         sprites.destroy(HhookSprite)
     }
+    if (Robob.vy > 0) {
+        sprites.destroy(HhookSprite)
+    }
 })
