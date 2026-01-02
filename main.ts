@@ -155,7 +155,7 @@ game.onUpdate(function () {
         sprites.destroy(VhookSprite)
         Robob.ay = 400
     } else {
-        if (Robob.tileKindAt(TileDirection.Top, assets.tile`4`)) {
+        if (!(Robob.tileKindAt(TileDirection.Top, assets.tile`8`))) {
             Robob.ay = 0
         } else {
             Robob.ay = 400
