@@ -6,6 +6,7 @@ namespace SpriteKind {
     export const Warp = SpriteKind.create()
     export const BluePortal = SpriteKind.create()
     export const RedPortal = SpriteKind.create()
+    export const Hazards = SpriteKind.create()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     HropeLength = 0
@@ -13,27 +14,37 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     HhookSprite.setPosition(Robob.x, Robob.y)
     HhookSprite.vx = 100 * direction
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Warp, function (sprite, otherSprite) {
-    game.splash("Level " + level + " complete")
-    level += 1
-    SetupLevel()
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     VropeLength = 0
     VhookSprite = sprites.create(assets.image`hook`, SpriteKind.Vhook)
     VhookSprite.setPosition(Robob.x, Robob.y)
     VhookSprite.vy = -100
 })
+scene.onHitWall(SpriteKind.Vhook, function (sprite, location) {
+    Robob.x = VhookSprite.x
+    Robob.y = VhookSprite.y
+    VropeLength = 0
+    sprites.destroy(VhookSprite)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Warp, function (sprite, otherSprite) {
+    game.splash("Level " + level + " complete")
+    level += 1
+    SetupLevel()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.BluePortal, function (sprite, otherSprite) {
+    sprite.setPosition(red_Portal.x, red_Portal.y)
+})
 function SetupLevel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.BluePortal)
     sprites.destroyAllSpritesOfKind(SpriteKind.RedPortal)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Hazards)
     if (level == 1) {
         tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level1`))
         tiles.placeOnTile(Robob, tiles.getTileLocation(1, 13))
         tiles.placeOnTile(Portal, tiles.getTileLocation(0, 2))
         game.splash("Press down to read signs!", "(You're standing on a sign)")
     } else if (level == 2) {
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level0`))
+        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level2`))
         blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
         red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
         animation.runImageAnimation(
@@ -53,7 +64,7 @@ function SetupLevel () {
         tiles.placeOnTile(blue_Portal, tiles.getTileLocation(11, 1))
         tiles.placeOnTile(red_Portal, tiles.getTileLocation(14, 10))
     } else if (level == 3) {
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level21`))
+        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level3`))
         blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
         red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
         animation.runImageAnimation(
@@ -72,18 +83,37 @@ function SetupLevel () {
         tiles.placeOnTile(Portal, tiles.getTileLocation(1, 13))
         tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 11))
         tiles.placeOnTile(red_Portal, tiles.getTileLocation(19, 1))
+    } else if (level == 4) {
+        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level0`))
+        tiles.placeOnTile(Robob, tiles.getTileLocation(1, 3))
+        tiles.placeOnTile(Portal, tiles.getTileLocation(1, 1))
+    } else if (false) {
+    	
     } else {
     	
     }
+    for (let TopLava of tiles.getTilesByType(assets.tile`myTile0`)) {
+        Lava = sprites.create(assets.image`LavaTop`, SpriteKind.Hazards)
+        tiles.placeOnTile(Lava, TopLava)
+        tiles.setTileAt(TopLava, assets.tile`transparency8`)
+        animation.runImageAnimation(
+        Lava,
+        assets.animation`LavaWaves`,
+        100,
+        true
+        )
+    }
+    for (let MidLava of tiles.getTilesByType(assets.tile`myTile1`)) {
+        MiddleLava = sprites.create(assets.image`LavaMiddle`, SpriteKind.Hazards)
+        tiles.placeOnTile(MiddleLava, MidLava)
+        tiles.setTileAt(MidLava, assets.tile`transparency8`)
+    }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.BluePortal, function (sprite, otherSprite) {
-    sprite.setPosition(red_Portal.x, red_Portal.y)
-})
-scene.onHitWall(SpriteKind.Vhook, function (sprite, location) {
-    Robob.x = VhookSprite.x
-    Robob.y = VhookSprite.y
-    VropeLength = 0
-    sprites.destroy(VhookSprite)
+scene.onHitWall(SpriteKind.Hhook, function (sprite, location) {
+    Robob.x = HhookSprite.x
+    Robob.y = HhookSprite.y
+    HropeLength = 0
+    sprites.destroy(HhookSprite)
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
@@ -106,14 +136,10 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     	
     }
 })
-scene.onHitWall(SpriteKind.Hhook, function (sprite, location) {
-    Robob.x = HhookSprite.x
-    Robob.y = HhookSprite.y
-    HropeLength = 0
-    sprites.destroy(HhookSprite)
-})
-let red_Portal: Sprite = null
+let MiddleLava: Sprite = null
+let Lava: Sprite = null
 let blue_Portal: Sprite = null
+let red_Portal: Sprite = null
 let VropeLength = 0
 let HropeLength = 0
 let direction = 0
@@ -123,7 +149,7 @@ let HhookSprite: Sprite = null
 let Robob: Sprite = null
 let level = 0
 scene.setBackgroundImage(assets.image`level1`)
-level = 1
+level = 4
 Robob = sprites.create(assets.image`IdleR`, SpriteKind.Player)
 Robob.ay = 400
 HhookSprite = sprites.create(assets.image`blank`, SpriteKind.rope)
@@ -155,7 +181,7 @@ game.onUpdate(function () {
         sprites.destroy(VhookSprite)
         Robob.ay = 400
     } else {
-        if (!(Robob.tileKindAt(TileDirection.Top, assets.tile`8`))) {
+        if (!(Robob.tileKindAt(TileDirection.Top, assets.tile`8`)) && !(Robob.tileKindAt(TileDirection.Top, assets.tile`transparency8`))) {
             Robob.ay = 0
         } else {
             Robob.ay = 400
