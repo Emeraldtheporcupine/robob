@@ -40,7 +40,7 @@ function Start () {
     Screen = "Game"
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Warp, function (sprite, otherSprite) {
-    game.splash("Level " + level + " complete")
+    game.splash("Stage " + Stage + " Level " + level + " complete")
     level += 1
     SetupLevel()
 })
@@ -226,9 +226,9 @@ let MiddleLava: Sprite = null
 let Lava: Sprite = null
 let red_Portal: Sprite = null
 let blue_Portal: Sprite = null
-let Stage = 0
 let VropeLength = 0
 let level = 0
+let Stage = 0
 let Portal: Sprite = null
 let VhookSprite: Sprite = null
 let direction = 0
