@@ -14,25 +14,16 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     HhookSprite.setPosition(Robob.x, Robob.y)
     HhookSprite.vx = 100 * direction
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    VropeLength = 0
-    VhookSprite = sprites.create(assets.image`hook`, SpriteKind.Vhook)
-    VhookSprite.setPosition(Robob.x, Robob.y)
-    VhookSprite.vy = -100
-})
-scene.onHitWall(SpriteKind.Vhook, function (sprite, location) {
-    Robob.x = VhookSprite.x
-    Robob.y = VhookSprite.y
-    VropeLength = 0
-    sprites.destroy(VhookSprite)
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Warp, function (sprite, otherSprite) {
     game.splash("Level " + level + " complete")
     level += 1
     SetupLevel()
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.BluePortal, function (sprite, otherSprite) {
-    sprite.setPosition(red_Portal.x, red_Portal.y)
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    VropeLength = 0
+    VhookSprite = sprites.create(assets.image`hook`, SpriteKind.Vhook)
+    VhookSprite.setPosition(Robob.x, Robob.y)
+    VhookSprite.vy = -100
 })
 function SetupLevel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.BluePortal)
@@ -64,6 +55,10 @@ function SetupLevel () {
         tiles.placeOnTile(blue_Portal, tiles.getTileLocation(11, 1))
         tiles.placeOnTile(red_Portal, tiles.getTileLocation(14, 10))
     } else if (level == 3) {
+        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level0`))
+        tiles.placeOnTile(Robob, tiles.getTileLocation(1, 3))
+        tiles.placeOnTile(Portal, tiles.getTileLocation(1, 1))
+    } else if (level == 4) {
         tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level3`))
         blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
         red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
@@ -83,10 +78,6 @@ function SetupLevel () {
         tiles.placeOnTile(Portal, tiles.getTileLocation(1, 13))
         tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 11))
         tiles.placeOnTile(red_Portal, tiles.getTileLocation(19, 1))
-    } else if (level == 4) {
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level0`))
-        tiles.placeOnTile(Robob, tiles.getTileLocation(1, 3))
-        tiles.placeOnTile(Portal, tiles.getTileLocation(1, 1))
     } else if (false) {
     	
     } else {
@@ -109,11 +100,14 @@ function SetupLevel () {
         tiles.setTileAt(MidLava, assets.tile`transparency8`)
     }
 }
-scene.onHitWall(SpriteKind.Hhook, function (sprite, location) {
-    Robob.x = HhookSprite.x
-    Robob.y = HhookSprite.y
-    HropeLength = 0
-    sprites.destroy(HhookSprite)
+sprites.onOverlap(SpriteKind.Player, SpriteKind.BluePortal, function (sprite, otherSprite) {
+    sprite.setPosition(red_Portal.x, red_Portal.y)
+})
+scene.onHitWall(SpriteKind.Vhook, function (sprite, location) {
+    Robob.x = VhookSprite.x
+    Robob.y = VhookSprite.y
+    VropeLength = 0
+    sprites.destroy(VhookSprite)
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     if (level == 1) {
@@ -136,10 +130,16 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     	
     }
 })
+scene.onHitWall(SpriteKind.Hhook, function (sprite, location) {
+    Robob.x = HhookSprite.x
+    Robob.y = HhookSprite.y
+    HropeLength = 0
+    sprites.destroy(HhookSprite)
+})
 let MiddleLava: Sprite = null
 let Lava: Sprite = null
-let blue_Portal: Sprite = null
 let red_Portal: Sprite = null
+let blue_Portal: Sprite = null
 let VropeLength = 0
 let HropeLength = 0
 let direction = 0
@@ -149,7 +149,7 @@ let HhookSprite: Sprite = null
 let Robob: Sprite = null
 let level = 0
 scene.setBackgroundImage(assets.image`level1`)
-level = 4
+level = 1
 Robob = sprites.create(assets.image`IdleR`, SpriteKind.Player)
 Robob.ay = 400
 HhookSprite = sprites.create(assets.image`blank`, SpriteKind.rope)
