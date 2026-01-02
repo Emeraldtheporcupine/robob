@@ -22,6 +22,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 function Start () {
+    scene.setBackgroundImage(assets.image`stage1BG`)
     Robob = sprites.create(assets.image`IdleR`, SpriteKind.Player)
     Robob.ay = 400
     HhookSprite = sprites.create(assets.image`blank`, SpriteKind.rope)
@@ -51,6 +52,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         VhookSprite.vy = -100
     } else if (Screen == "Title") {
         Screen = "Loading..."
+        Stage = 1
         level = 1
         sprites.destroyAllSpritesOfKind(SpriteKind.Title)
         music.stopAllSounds()
@@ -62,76 +64,83 @@ function SetupLevel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.BluePortal)
     sprites.destroyAllSpritesOfKind(SpriteKind.RedPortal)
     sprites.destroyAllSpritesOfKind(SpriteKind.Hazards)
-    if (level == 1) {
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level1`))
-        tiles.placeOnTile(Robob, tiles.getTileLocation(1, 13))
-        tiles.placeOnTile(Portal, tiles.getTileLocation(0, 2))
-        game.splash("Press down to read signs!", "(You're standing on a sign)")
-    } else if (level == 2) {
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level2`))
-        blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
-        red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
-        animation.runImageAnimation(
-        blue_Portal,
-        assets.animation`blue portal`,
-        100,
-        true
-        )
-        animation.runImageAnimation(
-        red_Portal,
-        assets.animation`red portal`,
-        100,
-        true
-        )
-        tiles.placeOnTile(Robob, tiles.getTileLocation(1, 13))
-        tiles.placeOnTile(Portal, tiles.getTileLocation(0, 8))
-        tiles.placeOnTile(blue_Portal, tiles.getTileLocation(11, 1))
-        tiles.placeOnTile(red_Portal, tiles.getTileLocation(14, 10))
-    } else if (level == 3) {
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level0`))
-        tiles.placeOnTile(Robob, tiles.getTileLocation(1, 3))
-        tiles.placeOnTile(Portal, tiles.getTileLocation(1, 1))
-    } else if (level == 4) {
-        direction = -1
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level3`))
-        blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
-        red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
-        animation.runImageAnimation(
-        blue_Portal,
-        assets.animation`blue portal`,
-        100,
-        true
-        )
-        animation.runImageAnimation(
-        red_Portal,
-        assets.animation`red portal`,
-        100,
-        true
-        )
-        tiles.placeOnTile(Robob, tiles.getTileLocation(19, 1))
-        tiles.placeOnTile(Portal, tiles.getTileLocation(1, 13))
-        tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 11))
-        tiles.placeOnTile(red_Portal, tiles.getTileLocation(19, 1))
-    } else if (level == 5) {
-        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level36`))
-        blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
-        red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
-        animation.runImageAnimation(
-        blue_Portal,
-        assets.animation`blue portal`,
-        100,
-        true
-        )
-        animation.runImageAnimation(
-        red_Portal,
-        assets.animation`red portal`,
-        100,
-        true
-        )
-        tiles.placeOnTile(Robob, tiles.getTileLocation(18, 13))
-        tiles.placeOnTile(Portal, tiles.getTileLocation(19, 1))
-        tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 13))
-        tiles.placeOnTile(red_Portal, tiles.getTileLocation(17, 13))
+    if (Stage == 1) {
+        if (level == 1) {
+            tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level1`))
+            tiles.placeOnTile(Robob, tiles.getTileLocation(1, 13))
+            tiles.placeOnTile(Portal, tiles.getTileLocation(0, 2))
+            game.splash("Press down to read signs!", "(You're standing on a sign)")
+        } else if (level == 2) {
+            tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level2`))
+            blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
+            red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
+            animation.runImageAnimation(
+            blue_Portal,
+            assets.animation`blue portal`,
+            100,
+            true
+            )
+            animation.runImageAnimation(
+            red_Portal,
+            assets.animation`red portal`,
+            100,
+            true
+            )
+            tiles.placeOnTile(Robob, tiles.getTileLocation(1, 13))
+            tiles.placeOnTile(Portal, tiles.getTileLocation(0, 8))
+            tiles.placeOnTile(blue_Portal, tiles.getTileLocation(11, 1))
+            tiles.placeOnTile(red_Portal, tiles.getTileLocation(14, 10))
+        } else if (level == 3) {
+            tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level0`))
+            tiles.placeOnTile(Robob, tiles.getTileLocation(1, 3))
+            tiles.placeOnTile(Portal, tiles.getTileLocation(1, 1))
+        } else if (level == 4) {
+            direction = -1
+            tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level3`))
+            blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
+            red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
+            animation.runImageAnimation(
+            blue_Portal,
+            assets.animation`blue portal`,
+            100,
+            true
+            )
+            animation.runImageAnimation(
+            red_Portal,
+            assets.animation`red portal`,
+            100,
+            true
+            )
+            tiles.placeOnTile(Robob, tiles.getTileLocation(19, 1))
+            tiles.placeOnTile(Portal, tiles.getTileLocation(1, 13))
+            tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 11))
+            tiles.placeOnTile(red_Portal, tiles.getTileLocation(19, 1))
+        } else if (level == 5) {
+            tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level36`))
+            blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
+            red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
+            animation.runImageAnimation(
+            blue_Portal,
+            assets.animation`blue portal`,
+            100,
+            true
+            )
+            animation.runImageAnimation(
+            red_Portal,
+            assets.animation`red portal`,
+            100,
+            true
+            )
+            tiles.placeOnTile(Robob, tiles.getTileLocation(18, 13))
+            tiles.placeOnTile(Portal, tiles.getTileLocation(19, 1))
+            tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 13))
+            tiles.placeOnTile(red_Portal, tiles.getTileLocation(17, 13))
+        } else {
+            Stage += 1
+            level = 1
+        }
+    } else if (Stage == 2) {
+    	
     } else {
     	
     }
@@ -217,6 +226,7 @@ let MiddleLava: Sprite = null
 let Lava: Sprite = null
 let red_Portal: Sprite = null
 let blue_Portal: Sprite = null
+let Stage = 0
 let VropeLength = 0
 let level = 0
 let Portal: Sprite = null
@@ -227,7 +237,7 @@ let HhookSprite: Sprite = null
 let HropeLength = 0
 let Screen = ""
 Screen = "Title"
-scene.setBackgroundImage(assets.image`level1`)
+scene.setBackgroundImage(assets.image`TitleScreen`)
 music.play(music.createSong(assets.song`City Harbor`), music.PlaybackMode.LoopingInBackground)
 let Title = sprites.create(assets.image`Title`, SpriteKind.Title)
 Title.setPosition(80, 25)
