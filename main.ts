@@ -112,8 +112,26 @@ function SetupLevel () {
         tiles.placeOnTile(Portal, tiles.getTileLocation(1, 13))
         tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 11))
         tiles.placeOnTile(red_Portal, tiles.getTileLocation(19, 1))
-    } else if (false) {
-    	
+    } else if (level == 5) {
+        tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level36`))
+        blue_Portal = sprites.create(assets.image`blank1`, SpriteKind.BluePortal)
+        red_Portal = sprites.create(assets.image`blank`, SpriteKind.RedPortal)
+        animation.runImageAnimation(
+        blue_Portal,
+        assets.animation`blue portal`,
+        100,
+        true
+        )
+        animation.runImageAnimation(
+        red_Portal,
+        assets.animation`red portal`,
+        100,
+        true
+        )
+        tiles.placeOnTile(Robob, tiles.getTileLocation(18, 13))
+        tiles.placeOnTile(Portal, tiles.getTileLocation(19, 1))
+        tiles.placeOnTile(blue_Portal, tiles.getTileLocation(1, 13))
+        tiles.placeOnTile(red_Portal, tiles.getTileLocation(17, 13))
     } else {
     	
     }
