@@ -116,8 +116,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Hazards, function (sprite, other
     )
     scene.cameraShake(3, 500)
     pointer = sprites.create(assets.image`Point`, SpriteKind.Point)
+    pointer.setPosition(Robob.x, Robob.y - 8)
     pointer.setFlag(SpriteFlag.GhostThroughWalls, true)
+    pointer.startEffect(effects.fire)
     music.play(music.createSoundEffect(WaveShape.Noise, 5000, 5000, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+    sprites.destroy(KABOOM)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BluePortal, function (sprite, otherSprite) {
     sprite.setPosition(red_Portal.x, red_Portal.y)
@@ -198,7 +201,7 @@ game.onUpdate(function () {
 })
 game.onUpdate(function () {
     if (pointer) {
-        pointer.vy = -5
+        pointer.vy = -25
         pointer.setFlag(SpriteFlag.AutoDestroy, true)
     }
     if (!(controller.A.isPressed())) {
