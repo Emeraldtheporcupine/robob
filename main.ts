@@ -7,6 +7,8 @@ namespace SpriteKind {
     export const BluePortal = SpriteKind.create()
     export const RedPortal = SpriteKind.create()
     export const Hazards = SpriteKind.create()
+    export const Effect = SpriteKind.create()
+    export const Point = SpriteKind.create()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     HropeLength = 0
@@ -26,6 +28,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     VhookSprite.vy = -100
 })
 function SetupLevel () {
+    direction = 1
     sprites.destroyAllSpritesOfKind(SpriteKind.BluePortal)
     sprites.destroyAllSpritesOfKind(SpriteKind.RedPortal)
     sprites.destroyAllSpritesOfKind(SpriteKind.Hazards)
@@ -100,6 +103,22 @@ function SetupLevel () {
         tiles.setTileAt(MidLava, assets.tile`transparency8`)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Hazards, function (sprite, otherSprite) {
+    KABOOM = sprites.create(assets.image`blank`, SpriteKind.Effect)
+    KABOOM.setPosition(Robob.x, Robob.y)
+    KABOOM.setScale(1, ScaleAnchor.Middle)
+    SetupLevel()
+    animation.runImageAnimation(
+    KABOOM,
+    assets.animation`KABOOM`,
+    50,
+    false
+    )
+    scene.cameraShake(3, 500)
+    pointer = sprites.create(assets.image`Point`, SpriteKind.Point)
+    pointer.setFlag(SpriteFlag.GhostThroughWalls, true)
+    music.play(music.createSoundEffect(WaveShape.Noise, 5000, 5000, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BluePortal, function (sprite, otherSprite) {
     sprite.setPosition(red_Portal.x, red_Portal.y)
 })
@@ -136,6 +155,8 @@ scene.onHitWall(SpriteKind.Hhook, function (sprite, location) {
     HropeLength = 0
     sprites.destroy(HhookSprite)
 })
+let pointer: Sprite = null
+let KABOOM: Sprite = null
 let MiddleLava: Sprite = null
 let Lava: Sprite = null
 let red_Portal: Sprite = null
@@ -149,7 +170,7 @@ let HhookSprite: Sprite = null
 let Robob: Sprite = null
 let level = 0
 scene.setBackgroundImage(assets.image`level1`)
-level = 1
+level = 3
 Robob = sprites.create(assets.image`IdleR`, SpriteKind.Player)
 Robob.ay = 400
 HhookSprite = sprites.create(assets.image`blank`, SpriteKind.rope)
@@ -176,6 +197,10 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
+    if (pointer) {
+        pointer.vy = -5
+        pointer.setFlag(SpriteFlag.AutoDestroy, true)
+    }
     if (!(controller.A.isPressed())) {
         VropeLength = 0
         sprites.destroy(VhookSprite)
